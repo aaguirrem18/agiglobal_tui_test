@@ -48,7 +48,7 @@ class QueryFlight
 
     public function searchSchedule( $depcode, $retcode )
     {
-
+        
         $url_final = $this->url_base."/flightschedules/?departureairport=".$depcode."&destinationairport=".$retcode."&returndepartureairport=".$retcode."&returndestinationairport=".$depcode;
         $response = $this->conn->check($url_final);
 
@@ -60,7 +60,7 @@ class QueryFlight
         }
         $flightschedules['dep_schedule'] = $out_date;
         /** */
-        
+
         /** RET  -> get dates for Returns */
         $ret_date = array();
         $ret_schedules = $response['content']['flightschedules']['RET'];

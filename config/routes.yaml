@@ -1,6 +1,6 @@
 # config/routes.yaml
-inicio:
-    path:       /inicio
+home:
+    path:       /
     controller: App\Controller\HomeController::index
 
 testnew:

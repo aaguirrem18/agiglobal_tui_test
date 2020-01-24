@@ -7,7 +7,7 @@ class ConnApi
 {
     public function check(string $url): array
     {
-
+        
         /** Tested with Postman */ 
         $client = HttpClient::create();
         try {
@@ -17,7 +17,7 @@ class ConnApi
                     'Z7VpVEQMsXk2LCBc',
                 ],
             ]);
-            
+
             ///all fields can be added by query parameter, for this test I preferred to pass the URL as a string
             // to make code more clean and fast coding
             $content = $response->getContent();
