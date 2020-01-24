@@ -1,0 +1,20 @@
+# config/routes.yaml
+inicio:
+    path:       /inicio
+    controller: App\Controller\HomeController::index
+
+testnew:
+    path:       /testnew
+    controller: App\Controller\HomeController::flightroutesReturn
+
+schedules:
+    path:       /schedules
+    controller: App\Controller\HomeController::schedules
+
+search:
+    path:       /search
+    controller: App\Controller\HomeController::searchandbook
+
+booking:
+    path:       /booking
+    controller: App\Controller\HomeController::bookflight

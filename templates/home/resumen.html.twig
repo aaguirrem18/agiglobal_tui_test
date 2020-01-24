@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">RESUMEN</div>
+    <ul class="list-group list-group-flush" >
+        <div class="container">
+
+            <li class="list-group-item" >
+                <p><b>Outbound flight:</b> {{ pfdep[0]|date("jS F Y") }}</p>
+                <p><b>Departure Time:</b> {{ pfdep[1]|date("H:i:s") }}</p>
+                <p><b>Departure:</b> {{pfdep[2]}} <b>-> Duration:</b> {{pfdep[3]}} <b>-> Arrival in:</b> {{pfdep[4]}}</p>
+                <p>Price per person:  {{ 'EUR'|currency_symbol }} {{ pfdep[5] }}</p>
+            </li>
+
+            {% if pfret|length > 0 %}
+                <li class="list-group-item" >
+                    <p><b>Return flight:</b> {{ pfret[0]|date("jS F Y") }}</p>
+                    <p><b>Departure Time:</b> {{ pfret[1]|date("H:i:s") }}</p>
+                    <p><b>Departure:</b> {{pfret[2]}} <b>-> Duration:</b> {{pfret[3]}} <b>-> Arrival in:</b> {{pfret[4]}}</p>
+                    <p>Price per person:  {{ 'EUR'|currency_symbol }} {{ pfret[5] }}</p>
+                </li>
+            {% endif %} 
+
+            <li class="list-group-item" ><p>Passanger(s): {{ passangers }}</p></li>
+            <li class="list-group-item" ><p>TOTAL:  {{ 'EUR'|currency_symbol }} {{ total }}</p></li>
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block javascripts_footer %}
+    <script type="text/javascript">
+        
+        $(document).ready(function(){
+        });
+
+    </script>
+  {% endblock %}

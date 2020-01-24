@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+<form action="booking" method="post">
+    <input type="hidden" name="passangers" value="{{passangers}}">
+    <div class="card">
+        <div class="card-header">OUTBOUND {{ flights_out[0].date|date("jS F Y") }}</div>
+        <ul class="list-group list-group-flush">
+            <div class="container">
+            {% for routes in flights_out %}
+                <li class="list-group-item" >
+                    <input class="form-check-input" type="radio" name="purge_flight_dep" id="round_trip" value="{{flights_out[0].date}},{{routes.datetime}},{{routes.depart.airport.name}},{{routes.duration}},{{routes.arrival.airport.name}},{{routes.price}}" required>
+                    <div id="data_dep" {% if routes.seatsAvailable < 10 %} style="background-color: lightblue;" {% endif %}>
+                        <p><b>Departure Time:</b> {{ routes.datetime|date("H:i:s") }}</p>
+                        <p><b>Departure:</b> {{routes.depart.airport.name}} <b>-> Duration:</b> {{routes.duration}} <b>-> Arrival in:</b> {{routes.arrival.airport.name}}</p>
+                        {% if routes.seatsAvailable < 10 %} <p><b>Seats Available:</b> {{routes.seatsAvailable}}</p> {% endif %}
+                        <b>Price:</b> {{ 'EUR'|currency_symbol }} {{routes.price}}</p>
+                    </div>
+                </li>
+            {% endfor %} 
+            </div>
+        </ul>
+    </div>
+    <br>
+
+    {% if flights_ret|length > 0 %}
+    
+        <div class="card">
+            <div class="card-header">RETURN: {{ flights_ret[0].date|date("jS F Y") }}</div>
+            <ul class="list-group list-group-flush">
+                <div class="container">
+                {% for routes in flights_ret %}
+                    <li class="list-group-item" >
+                        <input class="form-check-input" type="radio" name="purge_flight_ret" id="round_trip" value="{{flights_ret[0].date}},{{routes.datetime}},{{routes.depart.airport.name}},{{routes.duration}},{{routes.arrival.airport.name}},{{routes.price}}" required>
+                        <div id="data_ret" {% if routes.seatsAvailable < 10 %} style="background-color: lightblue;" {% endif %}>
+                            <p><b>Departure Time:</b> {{ routes.datetime|date("H:i:s") }}</p>
+                            <p><b>Departure:</b> {{routes.depart.airport.name}} <b>-> Duration:</b> {{routes.duration}} <b>-> Arrival in:</b> {{routes.arrival.airport.name}}</p>
+                            {% if routes.seatsAvailable < 10 %} <p><b>Seats Available:</b> {{routes.seatsAvailable}}</p> {% endif %}
+                            <b>Price:</b> {{ 'EUR'|currency_symbol }} {{routes.price}}</p>
+                        </div>
+                    </li>
+                {% else %}
+                    <li></li>
+                {% endfor %}
+                </div>
+            </ul>
+        </div>
+    {% endif %} 
+        <hr>
+        <div class="">
+            <button type="submit" class="btn btn-block btn-success">Flight Overview</button>
+        </div>
+</from>
+
+
+
+{% endblock %}
+
+{% block javascripts_footer %}
+    <script type="text/javascript">
+    </script>
+{% endblock %}

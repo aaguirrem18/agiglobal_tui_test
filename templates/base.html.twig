@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title> TUI TEST </title>
+        <link rel="stylesheet" href="build/css/app.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            </br></br>
+        <section id="content">
+            {% block content %}
+                    <h1>content</h1>
+                </div>
+            {% endblock %}
+        </section>
+       
+        {% block javascripts_footer %}
+            <script src="/build/js/app.js"></script>  
+        {% endblock %}
+         <footer>
+            <hr>
+            <p>AgioGlobal coding test - Adolfo Aguirre Montes</p>
+        </footer>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="alert alert-primary">
+        <form action="search" method="post">
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <h3>Choose a flight</h3>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flight_type" id="round_trip" value="round_trip" checked>
+                        <label class="form-check-label" for="round_trip">Round-trip flight</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flight_type" id="one_way" value="one_way">
+                        <label class="form-check-label" for="one_way">One-Way</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <select class="custom-select" id="dep_select" name="dep_select" required>
+                        <option selected disabled value="">From...</option>
+                        {% for key, item in dep_pool %}
+                            <option value="{{ key }} ">{{item|e}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <select class="custom-select" id="ret_select" name="ret_select" required>
+                        <option selected disabled value="">To...</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <select class="custom-select" id="dep_date_select" name="dep_date_select" required>
+                        <option selected disabled value="">Departure...</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <select class="custom-select" id="ret_date_select" name="ret_date_select" required>
+                        <option selected disabled value="">Return...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <select class="custom-select" id="passangers" name="passangers">
+                        <option selected value="1">1. Adult</option>
+                        <option value="2">2. Adult</option>
+                        <option value="3">3. Adult</option>
+                    </select>
+                    <label for="inputState">+12 years</label>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <select class="custom-select" id="child" disabled>
+                        <option>...</option>
+                    </select>
+                    <label for="inputState">2-11 years</label>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <select class="custom-select" id="baby" disabled>
+                        <option>...</option>
+                    </select>
+                    <label for="inputState">+24 month</label>
+
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button type="submit" class="btn btn-block btn-success">Search and book</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascripts_footer %}
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+            $("input:radio[name=flight_type]").change(function(){
+                if( $(this).val() == "one_way" ){
+                    $("select[name='ret_date_select']").prop('disabled', 'disabled');
+                    $("select[name='ret_date_select']").val("");
+                }else{
+                    $("select[name='ret_date_select']").removeAttr('disabled');
+                    $("select[name='ret_date_select']").val("");
+
+                }
+            });  
+
+            $("select[name='dep_select']").change(function(){
+                
+                $("select[name='ret_select']").empty().append('<option selected="selected" value="">To...</option>');
+                $.ajax({
+                    url: "testnew",
+                    type: 'POST',
+                    data: {depcode:$(this).val()},
+                }).done(function(response) {
+                    $.each(response.ret_pool,function(key,value){
+                        $("select[name='ret_select']").append($("<option></option>")
+                            .attr("value",key).text(value)
+                        );
+                    });
+                });
+            });  
+
+
+            $("select[name='ret_select']").change(function(){
+                
+                $("select[name='dep_date_select']").empty().append('<option selected="selected" value="">Departure...</option>');
+                $("select[name='ret_date_select']").empty().append('<option selected="selected" value="">Return...</option>');
+
+                $.ajax({
+                    url: "schedules",
+                    type: 'POST',
+                    data: {
+                        depcode:$("select[name='dep_select']").val(),
+                        retcode:$(this).val()
+                    },
+                }).done(function(response) {
+
+                    $.each(response.dep_schedule,function(key,value){
+                        $("select[name='dep_date_select']").append($("<option></option>")
+                            .attr("value",key).text(value)
+                        );
+                    });
+                    
+                    $.each(response.ret_schedule,function(key,value){
+                        $("select[name='ret_date_select']").append($("<option></option>")
+                            .attr("value",key).text(value)
+                        );
+                    });
+                });
+
+            });  
+
+        });
+
+    </script>
+{% endblock %}
